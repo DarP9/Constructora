@@ -1,0 +1,381 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+    :root {
+        --amarillo: #F5A800;
+        --negro: #111111;
+        --gris: #2C2C2C;
+        --claro: #F4F2EF;
+    }
+
+    body {
+        font-family: 'Source Sans 3', sans-serif;
+        background: var(--claro);
+    }
+
+    /* HERO */
+    .hero {
+        position: relative;
+        height: 92vh;
+        min-height: 520px;
+        background: linear-gradient(to right, rgba(0,0,0,.75) 45%, rgba(0,0,0,.25)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80') center/cover no-repeat;
+        display: flex;
+        align-items: center;
+    }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--amarillo);
+        }
+
+    .hero-titulo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        color: #fff;
+        line-height: .95;
+        letter-spacing: 2px;
+    }
+
+        .hero-titulo span {
+            color: var(--amarillo);
+        }
+
+    /* Tipografía de sección */
+    .seccion-titulo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.8rem;
+        letter-spacing: 1px;
+        line-height: 1;
+    }
+
+    .linea-acc {
+        width: 48px;
+        height: 4px;
+        background: var(--amarillo);
+        margin: 12px 0 24px;
+    }
+
+    /* Números */
+    .numeros {
+        background: var(--negro);
+    }
+
+    .num-valor {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3.8rem;
+        color: var(--amarillo);
+        line-height: 1;
+    }
+
+    .num-label {
+        font-size: .82rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.50);
+    }
+
+    /* Tarjetas de servicio */
+    .servicio-card {
+        background: #fff;
+        border-top: 4px solid transparent;
+        padding: 32px 28px;
+        height: 100%;
+        transition: border-color .2s, box-shadow .2s;
+    }
+
+        .servicio-card:hover {
+            border-color: var(--amarillo);
+            box-shadow: 0 8px 28px rgba(0,0,0,.10);
+        }
+
+        .servicio-card h4 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: .5px;
+        }
+
+    .servicio-icono {
+        font-size: 1.8rem;
+        color: var(--amarillo);
+    }
+
+    /* Proyectos */
+    .proyectos {
+        background: var(--gris);
+    }
+
+    .proyecto-thumb {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4/3;
+    }
+
+        .proyecto-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s;
+        }
+
+        .proyecto-thumb:hover img {
+            transform: scale(1.06);
+        }
+
+    .proyecto-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,.80));
+        padding: 24px 18px 14px;
+    }
+
+        .proyecto-overlay h5 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: .5px;
+            margin: 0;
+            color: #fff;
+        }
+
+        .proyecto-overlay small {
+            font-size: .75rem;
+            color: var(--amarillo);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+    /* CTA */
+    .cta-banda {
+        background: var(--amarillo);
+    }
+
+        .cta-banda h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--negro);
+            letter-spacing: 1px;
+        }
+
+    /* Botones custom */
+    .btn-marca {
+        background: var(--amarillo);
+        color: var(--negro);
+        font-weight: 600;
+        border-radius: 0;
+        padding: 12px 34px;
+        border: none;
+        transition: background .2s;
+    }
+
+        .btn-marca:hover {
+            background: #d49200;
+            color: var(--negro);
+        }
+
+    .btn-outline-blanco {
+        color: #fff;
+        font-weight: 600;
+        border-radius: 0;
+        padding: 11px 34px;
+        border: 2px solid rgba(255,255,255,.50);
+        background: transparent;
+        transition: border-color .2s;
+    }
+
+        .btn-outline-blanco:hover {
+            border-color: #fff;
+            color: #fff;
+        }
+
+    .btn-negro {
+        background: var(--negro);
+        color: #fff;
+        font-weight: 600;
+        border-radius: 0;
+        padding: 12px 38px;
+        border: none;
+        transition: background .2s;
+    }
+
+        .btn-negro:hover {
+            background: #333;
+            color: #fff;
+        }
+</style>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-lg-7">
+                <p class="text-uppercase mb-2" style="color:var(--amarillo);font-size:.8rem;letter-spacing:3px;">
+                    Constructora &amp; Desarrolladora
+                </p>
+                <h1 class="hero-titulo">
+                    Construimos<br><span>tu visión</span><br>hecha realidad
+                </h1>
+                <p class="mt-3 mb-4 fw-light" style="color:rgba(255,255,255,.80);max-width:420px;font-size:1.1rem;line-height:1.65;">
+                    Más de 20 años levantando proyectos residenciales,
+                    comerciales e industriales con calidad comprobada y
+                    cumplimiento de plazos.
+                </p>
+                <a href="#contacto" class="btn btn-marca me-sm-3 mb-2">Solicitar cotización</a>
+                <a href="#proyectos" class="btn btn-outline-blanco mb-2">Ver proyectos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NÚMEROS -->
+<section class="numeros py-5">
+    <div class="container py-2">
+        <div class="row gy-4">
+            <div class="col-6 col-md-3" style="border-right:1px solid rgba(255,255,255,.10);">
+                <div class="ps-3">
+                    <div class="num-valor">380</div>
+                    <div class="num-label mt-1">proyectos<br>entregados</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" style="border-right:1px solid rgba(255,255,255,.10);">
+                <div class="ps-3">
+                    <div class="num-valor">22</div>
+                    <div class="num-label mt-1">años en<br>el mercado</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" style="border-right:1px solid rgba(255,255,255,.10);">
+                <div class="ps-3">
+                    <div class="num-valor">140</div>
+                    <div class="num-label mt-1">personas en<br>el equipo</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="ps-3">
+                    <div class="num-valor">98<span style="font-size:2rem;">%</span></div>
+                    <div class="num-label mt-1">de clientes<br>regresan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="py-5" style="background:var(--claro);">
+    <div class="container py-4">
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="seccion-titulo">Lo que<br>hacemos</h2>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <p class="text-secondary mb-0" style="font-size:.93rem;line-height:1.75;">
+                    Nos encargamos de todo: desde el primer plano hasta la
+                    llave en mano. Obra civil, acabados y supervisión incluidos.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-0" style="border-top:2px solid #ddd;">
+            <div class="col-md-6" style="border-bottom:2px solid #ddd; border-right:1px solid #ddd;">
+                <div class="servicio-card p-4 p-lg-5">
+                    <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">01</span>
+                    <h4>Construcción residencial</h4>
+                    <p class="text-secondary small mb-0">Casas y conjuntos habitacionales con materiales de primera y acabados a tu gusto.</p>
+                </div>
+            </div>
+            <div class="col-md-6" style="border-bottom:2px solid #ddd; border-left:1px solid #ddd;">
+                <div class="servicio-card p-4 p-lg-5">
+                    <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">02</span>
+                    <h4>Obra comercial</h4>
+                    <p class="text-secondary small mb-0">Locales, plazas y edificios de oficinas que optimizan los espacios de tu negocio.</p>
+                </div>
+            </div>
+            <div class="col-md-6" style="border-top:2px solid #ddd; border-right:1px solid #ddd;">
+                <div class="servicio-card p-4 p-lg-5">
+                    <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">03</span>
+                    <h4>Edificación industrial</h4>
+                    <p class="text-secondary small mb-0">Naves, bodegas y plantas manufactureras con estructuras robustas y en tiempo.</p>
+                </div>
+            </div>
+            <div class="col-md-6" style="border-top:2px solid #ddd; border-left:1px solid #ddd;">
+                <div class="servicio-card p-4 p-lg-5">
+                    <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">04</span>
+                    <h4>Remodelación</h4>
+                    <p class="text-secondary small mb-0">Transformamos espacios existentes con intervenciones que maximizan su valor.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos" class="proyectos py-5">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <p class="text-uppercase mb-1" style="font-size:.75rem;letter-spacing:2.5px;color:#888;">Portafolio</p>
+            <h2 class="seccion-titulo text-white">Proyectos recientes</h2>
+            <div class="linea-acc mx-auto mt-2"></div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-sm-6 col-md-4">
+                <div class="proyecto-thumb">
+                    <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=75" alt="Torre Corporativa Zentrum">
+                    <div class="proyecto-overlay">
+                        <small>Comercial</small>
+                        <h5>Torre Corporativa Zentrum</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="proyecto-thumb">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=75" alt="Residencial Los Pinos">
+                    <div class="proyecto-overlay">
+                        <small>Residencial</small>
+                        <h5>Residencial Los Pinos</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="proyecto-thumb">
+                    <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=75" alt="Bodega Parque Norte">
+                    <div class="proyecto-overlay">
+                        <small>Industrial</small>
+                        <h5>Bodega Parque Norte</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-marca">Ver todos los proyectos</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="contacto" class="cta-banda py-5">
+    <div class="container py-3">
+        <div class="row align-items-center">
+            <div class="col-md-7 mb-3 mb-md-0">
+                <h2 class="mb-1">¿Tienes un proyecto en mente?</h2>
+                <p class="mb-0" style="color:rgba(0,0,0,.60);font-size:.95rem;">
+                    Cuéntanos tu idea y te damos una propuesta sin costo en 48 horas.
+                </p>
+            </div>
+            <div class="col-md-5 text-md-end">
+                <a href="mailto:contacto@constructora.com" class="btn btn-negro">Escribirnos ahora</a>
+            </div>
+        </div>
+    </div>
+</section>
