@@ -90,22 +90,52 @@
   <ItemGroup>
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OtrosControllers.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DbHelper.cs" />
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="Models\Proyecto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Catalogo\Index.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Admin\Avances.cshtml" />
+    <Content Include="Views\Admin\Clientes.cshtml" />
+    <Content Include="Views\Admin\Compras.cshtml" />
+    <Content Include="Views\Admin\Empleados.cshtml" />
+    <Content Include="Views\Admin\Facturas.cshtml" />
+    <Content Include="Views\Admin\Finanzas.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Materiales.cshtml" />
+    <Content Include="Views\Admin\Proyectos.cshtml" />
+    <Content Include="Views\Admin\Usuarios.cshtml" />
+    <Content Include="Views\Cliente\Avances.cshtml" />
+    <Content Include="Views\Cliente\Facturas.cshtml" />
+    <Content Include="Views\Cliente\Index.cshtml" />
+    <Content Include="Views\Cliente\MisProyectos.cshtml" />
+    <Content Include="Views\Empleado\Avances.cshtml" />
+    <Content Include="Views\Empleado\Index.cshtml" />
+    <Content Include="Views\Empleado\Materiales.cshtml" />
+    <Content Include="Views\Empleado\Proyectos.cshtml" />
+    <Content Include="Views\Admin\Proveedores.cshtml" />
+    <Content Include="Views\Cliente\MisSolicitudes.cshtml" />
+    <Content Include="Views\Cliente\NuevaSolicitud.cshtml" />
+    <Content Include="Views\Admin\Solicitudes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -115,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

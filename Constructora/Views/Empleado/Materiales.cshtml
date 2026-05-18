@@ -1,0 +1,33 @@
+@model IEnumerable<Constructora.Models.Material>
+@{
+    ViewBag.Title  = "Materiales";
+    ViewBag.Pagina = "emp-mat";
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;} .tabla th{background:#111;color:#fff;font-size:.8rem;font-weight:500;}
+</style>
+<div class="panel">
+    <h2 class="sec-titulo">Materiales</h2>
+    <div class="linea"></div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>Nombre</th><th>Descripcion</th><th>Unidad</th><th>Precio unit.</th><th>Proveedor</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any()) { <tr><td colspan="5" class="text-center text-muted py-3">Sin materiales</td></tr> }
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.Nombre</td>
+                        <td>@m.Descripcion</td>
+                        <td>@m.UnidadMedida</td>
+                        <td>$@String.Format("{0:N2}", m.PrecioUnitario)</td>
+                        <td>@m.NombreProveedor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

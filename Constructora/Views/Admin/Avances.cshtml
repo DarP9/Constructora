@@ -1,0 +1,143 @@
+@model IEnumerable<Constructora.Models.AvanceObra>
+@using Constructora.Models
+@{
+    ViewBag.Title = "Avances de Obra";
+    ViewBag.Pagina = "admin-avances";
+    var proyectos = Constructora.Models.DbHelper.ListarProyectos();
+}
+<style>
+    .panel {
+        padding: 32px;
+    }
+
+    .sec-titulo {
+        font-family: 'Bebas Neue',sans-serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+        color: #111;
+    }
+
+    .linea {
+        width: 40px;
+        height: 4px;
+        background: #F5A800;
+        margin: 6px 0 24px;
+    }
+
+    .tabla th {
+        background: #111;
+        color: #fff;
+        font-size: .8rem;
+        font-weight: 500;
+    }
+
+    .btn-am {
+        background: #F5A800;
+        color: #111;
+        border: none;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 0;
+        cursor: pointer;
+    }
+
+        .btn-am:hover {
+            background: #d49200;
+        }
+
+    .modal-header {
+        background: #111;
+        color: #fff;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0;
+    }
+
+    .progress {
+        border-radius: 0;
+        height: 12px;
+    }
+
+    .progress-bar {
+        background: #F5A800;
+    }
+</style>
+<div class="panel">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="sec-titulo">Avances de Obra</h2>
+        <button class="btn-am" data-bs-toggle="modal" data-bs-target="#modalAvance">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo avance
+        </button>
+    </div>
+    <div class="linea"></div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead><tr><th>#</th><th>Proyecto</th><th>Cliente</th><th>Descripcion</th><th>Avance</th><th>Fecha</th></tr></thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-3">Sin avances registrados</td></tr>
+}
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.IdAvance</td>
+                        <td>@a.NombreProyecto</td>
+                        <td>@a.NombreCliente</td>
+                        <td>@a.Descripcion</td>
+                        <td style="min-width:130px;">
+                            <div class="progress"><div class="progress-bar" style="width:@a.PorcentajeAvance%"></div></div>
+                            <small class="text-muted">@a.PorcentajeAvance%</small>
+                        </td>
+                        <td>@a.Fecha.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAvance" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo avance de obra</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            @using (Html.BeginForm("CrearAvance", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Proyecto *</label>
+                        <select name="IdProyecto" class="form-select" required>
+                            <option value="">— Selecciona —</option>
+                            @foreach (var p in proyectos)
+                            {
+                                <option value="@p.IdProyecto">@p.NombreProyecto</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Descripcion</label>
+                        <textarea name="Descripcion" class="form-control" rows="3" placeholder="Describe el avance realizado..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Porcentaje de avance: <span id="pct-val">50</span>%</label>
+                        <input name="PorcentajeAvance" id="pct-range" type="range" min="0" max="100" value="50"
+                               class="form-range" oninput="document.getElementById('pct-val').textContent=this.value" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Fecha</label>
+                        <input name="Fecha" type="date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-am">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

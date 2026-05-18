@@ -1,0 +1,169 @@
+@model Constructora.Models.LoginViewModel
+@{
+    ViewBag.Title  = "Iniciar sesion";
+    ViewBag.Pagina = "login";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600&display=swap');
+    :root { --am:#F5A800; --neg:#111; }
+
+    .pag-login {
+        min-height: calc(100vh - 56px);
+        background: #F4F2EF;
+        display: flex;
+        align-items: center;
+        padding: 48px 20px;
+    }
+    .login-wrap {
+        width: 100%;
+        max-width: 840px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #fff;
+        border-top: 4px solid var(--am);
+        box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    }
+    .login-img {
+        background: linear-gradient(to bottom, rgba(0,0,0,.50), rgba(0,0,0,.72)),
+                    url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80') center/cover no-repeat;
+        padding: 48px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: 440px;
+    }
+    .login-img h2 { font-family:'Bebas Neue',sans-serif; font-size:2.6rem; color:#fff; line-height:1; margin-bottom:8px; }
+    .login-img h2 span { color: var(--am); }
+    .login-img p  { color: rgba(255,255,255,.65); font-size:.88rem; margin:0; }
+
+    .login-form {
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .login-form h3 { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:var(--neg); margin-bottom:4px; }
+    .subtitulo     { font-size:.85rem; color:#777; margin-bottom:28px; }
+
+    .campo { margin-bottom: 18px; }
+    .campo label {
+        display: block;
+        font-size: .82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+        margin-bottom: 6px;
+        color: var(--neg);
+    }
+    .campo input {
+        width: 100%;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        padding: 10px 14px;
+        font-family: 'Source Sans 3', sans-serif;
+        font-size: .92rem;
+        color: var(--neg);
+        border-radius: 0;
+        outline: none;
+        transition: border-color .15s;
+        box-sizing: border-box;
+    }
+    .campo input:focus { border-color: var(--am); background: #fff; }
+
+    .btn-entrar {
+        width: 100%;
+        background: var(--neg);
+        color: #fff;
+        border: none;
+        font-family: 'Source Sans 3', sans-serif;
+        font-size: .95rem;
+        font-weight: 600;
+        padding: 12px;
+        cursor: pointer;
+        margin-top: 6px;
+        transition: background .15s;
+        border-radius: 0;
+    }
+    .btn-entrar:hover { background: #2a2a2a; }
+
+    .ir-registro { text-align:center; font-size:.85rem; color:#777; margin-top:18px; }
+    .ir-registro a { color:var(--neg); font-weight:600; text-decoration:none; border-bottom:1px solid var(--am); padding-bottom:1px; }
+    .ir-registro a:hover { color:var(--am); }
+
+    .cuentas-demo {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        padding: 10px 14px;
+        font-size: .78rem;
+        color: #78350f;
+        margin-bottom: 20px;
+        line-height: 1.7;
+    }
+
+    @@media (max-width:620px) {
+        .login-wrap { grid-template-columns: 1fr; }
+        .login-img  { min-height:180px; padding:24px 20px; }
+        .login-form { padding:28px 20px; }
+    }
+</style>
+
+<div class="pag-login">
+    <div class="login-wrap">
+
+        <div class="login-img">
+            <h2>Accede<br>a tu <span>cuenta</span></h2>
+            <p>Gestiona tus proyectos, solicitudes de cotizacion y mucho mas.</p>
+        </div>
+
+        <div class="login-form">
+            <h3>Iniciar sesion</h3>
+            <p class="subtitulo">Ingresa tus datos para continuar</p>
+
+            <div class="cuentas-demo">
+                <strong>Cuentas de prueba:</strong><br>
+                Admin &nbsp;&nbsp;: admin@constructora.com / Admin2024!<br>
+                Empleado: empleado@constructora.com / Empleado123<br>
+                Cliente &nbsp;: cliente@constructora.com / Cliente123
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" style="font-size:.83rem; border-radius:0; padding:10px 14px;">
+                    @Html.ValidationSummary(true, "", new { @class = "" })
+                </div>
+            }
+
+            @using (Html.BeginForm("Login", "Account",
+                new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="campo">
+                    <label>Correo electronico</label>
+                    @Html.TextBoxFor(m => m.Correo,
+                        new { placeholder = "correo@ejemplo.com", type = "email", autocomplete = "email" })
+                    @Html.ValidationMessageFor(m => m.Correo, "",
+                        new { @class = "text-danger", style = "font-size:.78rem;" })
+                </div>
+
+                <div class="campo">
+                    <label>Contrasena</label>
+                    @Html.PasswordFor(m => m.Password,
+                        new { placeholder = "Tu contrasena", autocomplete = "current-password" })
+                    @Html.ValidationMessageFor(m => m.Password, "",
+                        new { @class = "text-danger", style = "font-size:.78rem;" })
+                </div>
+
+                <button type="submit" class="btn-entrar">Entrar</button>
+            }
+
+            <p class="ir-registro">
+                &iquest;No tienes cuenta?
+                <a href="@Url.Action("Register", "Account")">Registrate aqui</a>
+            </p>
+        </div>
+
+    </div>
+</div>

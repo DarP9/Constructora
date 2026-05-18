@@ -1,0 +1,40 @@
+@model IEnumerable<Constructora.Models.ResumenFinanciero>
+@{
+    ViewBag.Title  = "Finanzas";
+    ViewBag.Pagina = "admin-finanzas";
+    decimal totPres = 0; decimal totFact = 0; decimal totSaldo = 0;
+    foreach (var f in Model) { totPres += f.PresupuestoTotal; totFact += f.TotalFacturado; totSaldo += f.SaldoPendiente; }
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;} .tabla th{background:#111;color:#fff;font-size:.8rem;font-weight:500;}
+    .kpi{background:#fff;border-top:4px solid #F5A800;padding:20px;} .kpi-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;}
+    .kpi-lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:4px;}
+</style>
+<div class="panel">
+    <h2 class="sec-titulo">Resumen Financiero</h2>
+    <div class="linea"></div>
+    <div class="row g-3 mb-4">
+        <div class="col-md-4"><div class="kpi"><div class="kpi-val">$@String.Format("{0:N0}",totPres)</div><div class="kpi-lbl">Total presupuestado</div></div></div>
+        <div class="col-md-4"><div class="kpi"><div class="kpi-val">$@String.Format("{0:N0}",totFact)</div><div class="kpi-lbl">Total facturado</div></div></div>
+        <div class="col-md-4"><div class="kpi"><div class="kpi-val" style="color:#ef4444;">$@String.Format("{0:N0}",totSaldo)</div><div class="kpi-lbl">Saldo pendiente</div></div></div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead><tr><th>Proyecto</th><th>Presupuesto</th><th>Facturado</th><th>Saldo</th><th>Estado</th></tr></thead>
+            <tbody>
+                @if (!Model.Any()) { <tr><td colspan="5" class="text-center text-muted py-3">Sin datos</td></tr> }
+                @foreach (var f in Model)
+                {
+                    <tr>
+                        <td>@f.NombreProyecto</td>
+                        <td>$@String.Format("{0:N0}",f.PresupuestoTotal)</td>
+                        <td>$@String.Format("{0:N0}",f.TotalFacturado)</td>
+                        <td class="@(f.SaldoPendiente>0?"text-danger":"text-success")">$@String.Format("{0:N0}",f.SaldoPendiente)</td>
+                        <td><span class="badge @(f.Estado=="Entregado"?"bg-success":"bg-warning text-dark")">@f.Estado</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

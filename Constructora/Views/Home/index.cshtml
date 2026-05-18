@@ -1,5 +1,6 @@
-﻿@{
+@{
     ViewBag.Title = "Inicio";
+    ViewBag.Pagina = "inicio";
 }
 
 <style>
@@ -17,7 +18,6 @@
         background: var(--claro);
     }
 
-    /* HERO */
     .hero {
         position: relative;
         height: 92vh;
@@ -30,10 +30,8 @@
         .hero::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
+            bottom: 0; left: 0;
+            width: 100%; height: 6px;
             background: var(--amarillo);
         }
 
@@ -45,11 +43,8 @@
         letter-spacing: 2px;
     }
 
-        .hero-titulo span {
-            color: var(--amarillo);
-        }
+        .hero-titulo span { color: var(--amarillo); }
 
-    /* Tipografía de sección */
     .seccion-titulo {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 2.8rem;
@@ -58,16 +53,12 @@
     }
 
     .linea-acc {
-        width: 48px;
-        height: 4px;
+        width: 48px; height: 4px;
         background: var(--amarillo);
         margin: 12px 0 24px;
     }
 
-    /* Números */
-    .numeros {
-        background: var(--negro);
-    }
+    .numeros { background: var(--negro); }
 
     .num-valor {
         font-family: 'Bebas Neue', sans-serif;
@@ -83,7 +74,6 @@
         color: rgba(255,255,255,.50);
     }
 
-    /* Tarjetas de servicio */
     .servicio-card {
         background: #fff;
         border-top: 4px solid transparent;
@@ -103,15 +93,7 @@
             letter-spacing: .5px;
         }
 
-    .servicio-icono {
-        font-size: 1.8rem;
-        color: var(--amarillo);
-    }
-
-    /* Proyectos */
-    .proyectos {
-        background: var(--gris);
-    }
+    .proyectos { background: var(--gris); }
 
     .proyecto-thumb {
         position: relative;
@@ -120,21 +102,16 @@
     }
 
         .proyecto-thumb img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
             transition: transform .4s;
         }
 
-        .proyecto-thumb:hover img {
-            transform: scale(1.06);
-        }
+        .proyecto-thumb:hover img { transform: scale(1.06); }
 
     .proyecto-overlay {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        bottom: 0; left: 0; right: 0;
         background: linear-gradient(transparent, rgba(0,0,0,.80));
         padding: 24px 18px 14px;
     }
@@ -143,8 +120,7 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.3rem;
             letter-spacing: .5px;
-            margin: 0;
-            color: #fff;
+            margin: 0; color: #fff;
         }
 
         .proyecto-overlay small {
@@ -154,10 +130,7 @@
             letter-spacing: 1px;
         }
 
-    /* CTA */
-    .cta-banda {
-        background: var(--amarillo);
-    }
+    .cta-banda { background: var(--amarillo); }
 
         .cta-banda h2 {
             font-family: 'Bebas Neue', sans-serif;
@@ -166,7 +139,6 @@
             letter-spacing: 1px;
         }
 
-    /* Botones custom */
     .btn-marca {
         background: var(--amarillo);
         color: var(--negro);
@@ -177,10 +149,7 @@
         transition: background .2s;
     }
 
-        .btn-marca:hover {
-            background: #d49200;
-            color: var(--negro);
-        }
+        .btn-marca:hover { background: #d49200; color: var(--negro); }
 
     .btn-outline-blanco {
         color: #fff;
@@ -192,10 +161,7 @@
         transition: border-color .2s;
     }
 
-        .btn-outline-blanco:hover {
-            border-color: #fff;
-            color: #fff;
-        }
+        .btn-outline-blanco:hover { border-color: #fff; color: #fff; }
 
     .btn-negro {
         background: var(--negro);
@@ -207,13 +173,9 @@
         transition: background .2s;
     }
 
-        .btn-negro:hover {
-            background: #333;
-            color: #fff;
-        }
+        .btn-negro:hover { background: #333; color: #fff; }
 </style>
 
-<!-- HERO -->
 <section class="hero">
     <div class="container">
         <div class="row">
@@ -222,21 +184,20 @@
                     Constructora &amp; Desarrolladora
                 </p>
                 <h1 class="hero-titulo">
-                    Construimos<br><span>tu visión</span><br>hecha realidad
+                    Construimos<br><span>tu visi&oacute;n</span><br>hecha realidad
                 </h1>
                 <p class="mt-3 mb-4 fw-light" style="color:rgba(255,255,255,.80);max-width:420px;font-size:1.1rem;line-height:1.65;">
-                    Más de 20 años levantando proyectos residenciales,
+                    M&aacute;s de 20 a&ntilde;os levantando proyectos residenciales,
                     comerciales e industriales con calidad comprobada y
                     cumplimiento de plazos.
                 </p>
-                <a href="#contacto" class="btn btn-marca me-sm-3 mb-2">Solicitar cotización</a>
-                <a href="#proyectos" class="btn btn-outline-blanco mb-2">Ver proyectos</a>
+                <a href="#contacto" class="btn btn-marca me-sm-3 mb-2">Solicitar cotizaci&oacute;n</a>
+                <a href="@Url.Action("Index","Catalogo")" class="btn btn-outline-blanco mb-2">Ver proyectos</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- NÚMEROS -->
 <section class="numeros py-5">
     <div class="container py-2">
         <div class="row gy-4">
@@ -249,7 +210,7 @@
             <div class="col-6 col-md-3" style="border-right:1px solid rgba(255,255,255,.10);">
                 <div class="ps-3">
                     <div class="num-valor">22</div>
-                    <div class="num-label mt-1">años en<br>el mercado</div>
+                    <div class="num-label mt-1">a&ntilde;os en<br>el mercado</div>
                 </div>
             </div>
             <div class="col-6 col-md-3" style="border-right:1px solid rgba(255,255,255,.10);">
@@ -268,10 +229,8 @@
     </div>
 </section>
 
-<!-- SERVICIOS -->
-<section class="py-5" style="background:var(--claro);">
+<section id="servicios" class="py-5" style="background:var(--claro);">
     <div class="container py-4">
-
         <div class="row mb-5">
             <div class="col-md-6">
                 <h2 class="seccion-titulo">Lo que<br>hacemos</h2>
@@ -279,7 +238,7 @@
             <div class="col-md-6 d-flex align-items-end">
                 <p class="text-secondary mb-0" style="font-size:.93rem;line-height:1.75;">
                     Nos encargamos de todo: desde el primer plano hasta la
-                    llave en mano. Obra civil, acabados y supervisión incluidos.
+                    llave en mano. Obra civil, acabados y supervisi&oacute;n incluidos.
                 </p>
             </div>
         </div>
@@ -288,7 +247,7 @@
             <div class="col-md-6" style="border-bottom:2px solid #ddd; border-right:1px solid #ddd;">
                 <div class="servicio-card p-4 p-lg-5">
                     <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">01</span>
-                    <h4>Construcción residencial</h4>
+                    <h4>Construcci&oacute;n residencial</h4>
                     <p class="text-secondary small mb-0">Casas y conjuntos habitacionales con materiales de primera y acabados a tu gusto.</p>
                 </div>
             </div>
@@ -302,23 +261,21 @@
             <div class="col-md-6" style="border-top:2px solid #ddd; border-right:1px solid #ddd;">
                 <div class="servicio-card p-4 p-lg-5">
                     <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">03</span>
-                    <h4>Edificación industrial</h4>
+                    <h4>Edificaci&oacute;n industrial</h4>
                     <p class="text-secondary small mb-0">Naves, bodegas y plantas manufactureras con estructuras robustas y en tiempo.</p>
                 </div>
             </div>
             <div class="col-md-6" style="border-top:2px solid #ddd; border-left:1px solid #ddd;">
                 <div class="servicio-card p-4 p-lg-5">
                     <span class="d-block mb-3" style="font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;">04</span>
-                    <h4>Remodelación</h4>
+                    <h4>Remodelaci&oacute;n</h4>
                     <p class="text-secondary small mb-0">Transformamos espacios existentes con intervenciones que maximizan su valor.</p>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
-<!-- PROYECTOS -->
 <section id="proyectos" class="proyectos py-5">
     <div class="container py-4">
         <div class="text-center mb-5">
@@ -358,23 +315,22 @@
         </div>
 
         <div class="text-center mt-4">
-            <a href="#" class="btn btn-marca">Ver todos los proyectos</a>
+            <a href="@Url.Action("Index","Catalogo")" class="btn btn-marca">Ver todos los proyectos</a>
         </div>
     </div>
 </section>
 
-<!-- CTA -->
 <section id="contacto" class="cta-banda py-5">
     <div class="container py-3">
         <div class="row align-items-center">
             <div class="col-md-7 mb-3 mb-md-0">
-                <h2 class="mb-1">¿Tienes un proyecto en mente?</h2>
+                <h2 class="mb-1">&iquest;Tienes un proyecto en mente?</h2>
                 <p class="mb-0" style="color:rgba(0,0,0,.60);font-size:.95rem;">
-                    Cuéntanos tu idea y te damos una propuesta sin costo en 48 horas.
+                    Cu&eacute;ntanos tu idea y te damos una propuesta sin costo en 48 horas.
                 </p>
             </div>
             <div class="col-md-5 text-md-end">
-                <a href="mailto:contacto@constructora.com" class="btn btn-negro">Escribirnos ahora</a>
+                <a href="@Url.Action("Register","Account")" class="btn btn-negro">Escribenos ahora</a> 
             </div>
         </div>
     </div>

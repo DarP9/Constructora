@@ -1,17 +1,31 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Constructora.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
         public ActionResult Index()
         {
+            ViewBag.Pagina = "inicio";
             return View();
+        }
+    }
+
+    public class CatalogoController : Controller
+    {
+        public ActionResult Index()
+        {
+            ViewBag.Pagina = "catalogo";
+            try
+            {
+                var proyectos = Constructora.Models.DbHelper.ListarProyectos();
+                return View(proyectos);
+            }
+            catch
+            {
+                return View(new System.Collections.Generic.List<Constructora.Models.Proyecto>());
+            }
         }
     }
 }

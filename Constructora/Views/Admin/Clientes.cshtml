@@ -1,0 +1,91 @@
+@model IEnumerable<Constructora.Models.Cliente>
+@{
+    ViewBag.Title  = "Clientes";
+    ViewBag.Pagina = "admin-clientes";
+}
+<style>
+    .panel { padding:32px; }
+    .sec-titulo { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:1px; color:#111; }
+    .linea { width:40px; height:4px; background:#F5A800; margin:6px 0 24px; }
+    .tabla th { background:#111; color:#fff; font-size:.8rem; font-weight:500; }
+    .btn-am { background:#F5A800; color:#111; border:none; font-weight:600; padding:8px 20px; border-radius:0; cursor:pointer; }
+    .btn-am:hover { background:#d49200; }
+    .modal-header { background:#111; color:#fff; border-radius:0; }
+    .form-control { border-radius:0; }
+</style>
+
+<div class="panel">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="sec-titulo">Clientes</h2>
+        <button class="btn-am" data-bs-toggle="modal" data-bs-target="#modalCliente">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo cliente
+        </button>
+    </div>
+    <div class="linea"></div>
+
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>#</th><th>Nombre</th><th>Telefono</th><th>Correo</th><th>Empresa</th><th>Direccion</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-3">Sin clientes registrados</td></tr>
+                }
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.IdCliente</td>
+                        <td>@c.Nombre</td>
+                        <td>@c.Telefono</td>
+                        <td>@c.Correo</td>
+                        <td>@c.Empresa</td>
+                        <td>@c.Direccion</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCliente" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo cliente</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            @using (Html.BeginForm("CrearCliente", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nombre *</label>
+                        <input name="Nombre" class="form-control" required placeholder="Nombre completo" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Telefono</label>
+                        <input name="Telefono" class="form-control" placeholder="961 123 4567" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Correo</label>
+                        <input name="Correo" class="form-control" type="email" placeholder="correo@ejemplo.com" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Empresa</label>
+                        <input name="Empresa" class="form-control" placeholder="Nombre de empresa" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Direccion</label>
+                        <input name="Direccion" class="form-control" placeholder="Calle, ciudad..." />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-am">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

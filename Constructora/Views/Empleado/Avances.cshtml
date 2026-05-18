@@ -1,0 +1,38 @@
+@model IEnumerable<Constructora.Models.AvanceObra>
+@{
+    ViewBag.Title  = "Avances";
+    ViewBag.Pagina = "emp-av";
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;} .tabla th{background:#111;color:#fff;font-size:.8rem;font-weight:500;}
+    .progress{border-radius:0;height:12px;} .progress-bar{background:#F5A800;}
+</style>
+<div class="panel">
+    <h2 class="sec-titulo">Avances de Obra</h2>
+    <div class="linea"></div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>Proyecto</th><th>Descripcion</th><th>Avance</th><th>Fecha</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any()) { <tr><td colspan="4" class="text-center text-muted py-3">Sin avances</td></tr> }
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td>@a.NombreProyecto</td>
+                        <td>@a.Descripcion</td>
+                        <td style="min-width:140px;">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:@a.PorcentajeAvance%"></div>
+                            </div>
+                            <small class="text-muted">@a.PorcentajeAvance%</small>
+                        </td>
+                        <td>@a.Fecha.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+@using Constructora.Models
+@{
+    ViewBag.Title  = "Dashboard";
+    ViewBag.Pagina = "admin-dashboard";
+    var finanzas   = ViewBag.Finanzas as List<ResumenFinanciero> ?? new List<ResumenFinanciero>();
+    decimal totPres = 0; decimal totFact = 0;
+    foreach (var f in finanzas) { totPres += f.PresupuestoTotal; totFact += f.TotalFacturado; }
+}
+<style>
+    .panel { padding:32px; }
+    .sec-titulo { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:1px; color:#111; }
+    .linea { width:40px; height:4px; background:#F5A800; margin:6px 0 24px; }
+    .kpi   { background:#fff; border-top:4px solid #F5A800; padding:22px 24px; }
+    .kpi-val { font-family:'Bebas Neue',sans-serif; font-size:3rem; color:#111; line-height:1; }
+    .kpi-lbl { font-size:.75rem; text-transform:uppercase; letter-spacing:1px; color:#888; margin-top:4px; }
+    .tabla th { background:#111; color:#fff; font-size:.8rem; font-weight:500; }
+    .acceso { background:#fff; border-top:3px solid #F5A800; padding:20px; text-align:center; text-decoration:none; color:#111; display:block; transition:box-shadow .15s; }
+    .acceso:hover { box-shadow:0 4px 16px rgba(0,0,0,.10); color:#111; }
+    .acceso i { font-size:1.6rem; color:#F5A800; display:block; margin-bottom:8px; }
+    .acceso span { font-size:.82rem; font-weight:600; }
+</style>
+
+<div class="panel">
+    <h2 class="sec-titulo">Dashboard</h2>
+    <div class="linea"></div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val">@ViewBag.TotalProyectos</div>
+                <div class="kpi-lbl"><i class="bi bi-building me-1"></i>Proyectos</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val">@ViewBag.TotalClientes</div>
+                <div class="kpi-lbl"><i class="bi bi-people me-1"></i>Clientes</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val">@ViewBag.TotalEmpleados</div>
+                <div class="kpi-lbl"><i class="bi bi-person-badge me-1"></i>Empleados</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val" style="font-size:1.8rem;">$@String.Format("{0:N0}", totFact)</div>
+                <div class="kpi-lbl"><i class="bi bi-cash-stack me-1"></i>Total facturado</div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mb-2" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px;">Resumen financiero</h5>
+    <div class="table-responsive mb-4">
+        <table class="table table-sm tabla bg-white mb-0">
+            <thead>
+                <tr><th>Proyecto</th><th>Presupuesto</th><th>Facturado</th><th>Saldo</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+                @if (!finanzas.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted py-3">Sin datos aun</td></tr>
+                }
+                @foreach (var f in finanzas)
+                {
+                    <tr>
+                        <td>@f.NombreProyecto</td>
+                        <td>$@String.Format("{0:N0}", f.PresupuestoTotal)</td>
+                        <td>$@String.Format("{0:N0}", f.TotalFacturado)</td>
+                        <td class="@(f.SaldoPendiente > 0 ? "text-danger" : "text-success")">
+                            $@String.Format("{0:N0}", f.SaldoPendiente)
+                        </td>
+                        <td>
+                            <span class="badge @(f.Estado == "Entregado" ? "bg-success" : "bg-warning text-dark")">
+                                @f.Estado
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h5 class="mb-3" style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px;">Accesos rapidos</h5>
+    <div class="row g-2">
+        <div class="col-6 col-md-2"><a href="@Url.Action("Clientes",   "Admin")" class="acceso"><i class="bi bi-people"></i><span>Clientes</span></a></div>
+        <div class="col-6 col-md-2"><a href="@Url.Action("Empleados",  "Admin")" class="acceso"><i class="bi bi-person-badge"></i><span>Empleados</span></a></div>
+        <div class="col-6 col-md-2"><a href="@Url.Action("Proyectos",  "Admin")" class="acceso"><i class="bi bi-building"></i><span>Proyectos</span></a></div>
+        <div class="col-6 col-md-2"><a href="@Url.Action("Facturas",   "Admin")" class="acceso"><i class="bi bi-receipt"></i><span>Facturas</span></a></div>
+        <div class="col-6 col-md-2"><a href="@Url.Action("Avances",    "Admin")" class="acceso"><i class="bi bi-bar-chart-steps"></i><span>Avances</span></a></div>
+        <div class="col-6 col-md-2"><a href="@Url.Action("Usuarios",   "Admin")" class="acceso"><i class="bi bi-shield-lock"></i><span>Usuarios</span></a></div>
+    </div>
+</div>

@@ -1,0 +1,225 @@
+@model IEnumerable<Constructora.Models.Solicitud>
+@using Constructora.Models
+@{
+    ViewBag.Title = "Solicitudes";
+    ViewBag.Pagina = "admin-solicitudes";
+    var empleados = Constructora.Models.DbHelper.ListarEmpleados();
+    var clientes = Constructora.Models.DbHelper.ListarClientes();
+}
+<style>
+    .panel {
+        padding: 32px;
+    }
+
+    .sec-titulo {
+        font-family: 'Bebas Neue',sans-serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+        color: #111;
+    }
+
+    .linea {
+        width: 40px;
+        height: 4px;
+        background: #F5A800;
+        margin: 6px 0 24px;
+    }
+
+    .tabla th {
+        background: #111;
+        color: #fff;
+        font-size: .8rem;
+        font-weight: 500;
+    }
+
+    .btn-am {
+        background: #F5A800;
+        color: #111;
+        border: none;
+        font-weight: 600;
+        padding: 6px 16px;
+        border-radius: 0;
+        cursor: pointer;
+        font-size: .82rem;
+    }
+
+        .btn-am:hover {
+            background: #d49200;
+        }
+
+    .modal-header {
+        background: #111;
+        color: #fff;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0;
+    }
+</style>
+
+<div class="panel">
+    <h2 class="sec-titulo">Solicitudes de Proyectos</h2>
+    <div class="linea"></div>
+
+    @if (TempData["OkAdmin"] != null)
+    {
+        <div class="alert alert-success" style="border-radius:0;font-size:.85rem;">
+            <i class="bi bi-check-circle me-2"></i>@TempData["OkAdmin"]
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>#</th><th>Cliente</th><th>Proyecto</th><th>Tipo</th><th>Ciudad</th><th>Presupuesto</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="9" class="text-center text-muted py-4">Sin solicitudes recibidas</td></tr>
+                }
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.IdSolicitud</td>
+                        <td>
+                            <strong>@s.NombreUsuario</strong><br>
+                            <small class="text-muted">@s.CorreoUsuario</small>
+                        </td>
+                        <td>@s.NombreProyecto</td>
+                        <td>@s.Tipo</td>
+                        <td>@s.Ciudad</td>
+                        <td>@(s.PresupuestoEstimado > 0 ? "$" + String.Format("{0:N0}", s.PresupuestoEstimado) : "-")</td>
+                        <td>@s.FechaSolicitud.ToShortDateString()</td>
+                        <td>
+                            <span class="badge @(s.Estado=="Aprobada"?"bg-success":s.Estado=="Rechazada"?"bg-danger":"bg-warning text-dark")">
+                                @s.Estado
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-am mb-1"
+                                    data-bs-toggle="modal" data-bs-target="#modalSol"
+                                    data-id="@s.IdSolicitud"
+                                    data-nombre="@s.NombreProyecto"
+                                    data-estado="@s.Estado"
+                                    data-notas="@s.NotasAdmin">
+                                <i class="bi bi-pencil me-1"></i>Gestionar
+                            </button>
+                            @if (s.Estado == "Aprobada")
+                            {
+                                <button class="btn btn-success btn-sm"
+                                        style="border-radius:0;font-size:.78rem;"
+                                        data-bs-toggle="modal" data-bs-target="#modalConvertir"
+                                        data-id="@s.IdSolicitud"
+                                        data-nombre="@s.NombreProyecto"
+                                        data-idusuario="@s.IdUsuario"
+                                        data-cliente="@s.NombreUsuario">
+                                    <i class="bi bi-arrow-right-circle me-1"></i>Convertir
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSol" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <h5 class="modal-title">Gestionar solicitud</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            @using (Html.BeginForm("ActualizarSolicitud", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <input type="hidden" name="idSolicitud" id="sol-id" />
+                    <p class="fw-semibold mb-3" id="sol-nombre"></p>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Estado</label>
+                        <select name="estado" id="sol-estado" class="form-select">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Aprobada">Aprobada</option>
+                            <option value="Rechazada">Rechazada</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Notas para el cliente</label>
+                        <textarea name="notasAdmin" id="sol-notas" class="form-control" rows="3"
+                                  placeholder="Ej: Aprobado, nos comunicamos pronto..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-am">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConvertir" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <h5 class="modal-title">Convertir en proyecto</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            @using (Html.BeginForm("ConvertirEnProyecto", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <input type="hidden" name="idSolicitud" id="conv-id" />
+                    <input type="hidden" name="idCliente" id="conv-idcliente" />
+
+                    <p class="mb-1">Proyecto: <strong id="conv-nombre"></strong></p>
+                    <p class="mb-3 text-muted" style="font-size:.85rem;">
+                        Cliente solicitante: <strong id="conv-cliente"></strong>
+                    </p>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Asignar empleado responsable</label>
+                        <select name="idEmpleado" class="form-select">
+                            <option value="0">Sin asignar</option>
+                            @foreach (var e in empleados)
+                            {
+                                <option value="@e.IdEmpleado">@e.Nombre - @e.Puesto</option>
+                            }
+                        </select>
+                    </div>
+
+                    <p class="text-muted" style="font-size:.82rem;">
+                        Se creara el proyecto en estado "En proceso" con los datos de la solicitud.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-am">Crear proyecto</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.getElementById('modalSol').addEventListener('show.bs.modal', function (e) {
+            var btn = e.relatedTarget;
+            document.getElementById('sol-id').value = btn.getAttribute('data-id');
+            document.getElementById('sol-nombre').textContent = btn.getAttribute('data-nombre');
+            document.getElementById('sol-notas').value = btn.getAttribute('data-notas') || '';
+            document.getElementById('sol-estado').value = btn.getAttribute('data-estado');
+        });
+
+        document.getElementById('modalConvertir').addEventListener('show.bs.modal', function (e) {
+            var btn = e.relatedTarget;
+            document.getElementById('conv-id').value = btn.getAttribute('data-id');
+            document.getElementById('conv-nombre').textContent = btn.getAttribute('data-nombre');
+            document.getElementById('conv-cliente').textContent = btn.getAttribute('data-cliente');
+            document.getElementById('conv-idcliente').value = btn.getAttribute('data-idusuario');
+        });
+    </script>
+}

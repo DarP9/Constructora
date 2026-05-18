@@ -1,0 +1,53 @@
+@{
+    ViewBag.Title  = "Panel Empleado";
+    ViewBag.Pagina = "emp-dash";
+    var proyectos  = ViewBag.Proyectos as List<Constructora.Models.Proyecto>   ?? new List<Constructora.Models.Proyecto>();
+    var avances    = ViewBag.Avances   as List<Constructora.Models.AvanceObra> ?? new List<Constructora.Models.AvanceObra>();
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;}
+    .kpi{background:#fff;border-top:4px solid #F5A800;padding:20px;}
+    .kpi-val{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:#111;}
+    .kpi-lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:#888;margin-top:4px;}
+    .progress{border-radius:0;height:10px;} .progress-bar{background:#F5A800;}
+    .card-av{background:#fff;padding:16px;margin-bottom:10px;}
+</style>
+<div class="panel">
+    <h2 class="sec-titulo">Bienvenido, @Session["Nombre"]</h2>
+    <div class="linea"></div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val">@proyectos.Count</div>
+                <div class="kpi-lbl"><i class="bi bi-building me-1"></i>Proyectos</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="kpi">
+                <div class="kpi-val">@avances.Count</div>
+                <div class="kpi-lbl"><i class="bi bi-bar-chart-steps me-1"></i>Avances</div>
+            </div>
+        </div>
+    </div>
+
+    <h5 style="font-family:'Bebas Neue',sans-serif;letter-spacing:1px;">Ultimos avances registrados</h5>
+    @if (!avances.Any())
+    {
+        <div class="alert alert-info" style="border-radius:0;">Sin avances registrados aun.</div>
+    }
+    @foreach (var a in avances.Take(5))
+    {
+        <div class="card-av">
+            <div class="d-flex justify-content-between align-items-center">
+                <strong style="font-size:.88rem;">@a.NombreProyecto</strong>
+                <small class="text-muted">@a.Fecha.ToShortDateString()</small>
+            </div>
+            <div class="progress mt-2">
+                <div class="progress-bar" style="width:@a.PorcentajeAvance%"></div>
+            </div>
+            <small class="text-muted">@a.PorcentajeAvance% — @a.Descripcion</small>
+        </div>
+    }
+</div>

@@ -1,0 +1,33 @@
+@model IEnumerable<Constructora.Models.Proyecto>
+@{
+    ViewBag.Title  = "Proyectos";
+    ViewBag.Pagina = "emp-proy";
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;} .tabla th{background:#111;color:#fff;font-size:.8rem;font-weight:500;}
+</style>
+<div class="panel">
+    <h2 class="sec-titulo">Proyectos Asignados</h2>
+    <div class="linea"></div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>Nombre</th><th>Cliente</th><th>Inicio</th><th>Estado</th><th>Presupuesto</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any()) { <tr><td colspan="5" class="text-center text-muted py-3">Sin proyectos asignados</td></tr> }
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.NombreProyecto</td>
+                        <td>@p.NombreCliente</td>
+                        <td>@p.FechaInicio.ToShortDateString()</td>
+                        <td><span class="badge @(p.Estado=="Entregado"?"bg-success":"bg-warning text-dark")">@p.Estado</span></td>
+                        <td>$@String.Format("{0:N0}", p.PresupuestoTotal)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

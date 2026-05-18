@@ -1,0 +1,294 @@
+@model IEnumerable<Constructora.Models.Proyecto>
+@{
+    ViewBag.Title = "Proyectos";
+    ViewBag.Pagina = "catalogo";
+}
+<style>
+    :root {
+        --am: #F5A800;
+        --neg: #111;
+        --gris: #2C2C2C;
+        --claro: #F4F2EF;
+    }
+
+    .hero-cat {
+        position: relative;
+        height: 52vh;
+        min-height: 320px;
+        background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.75)), url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80') center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+        .hero-cat::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--am);
+        }
+
+        .hero-cat h1 {
+            font-family: 'Bebas Neue',sans-serif;
+            font-size: clamp(2.8rem,7vw,5rem);
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+            .hero-cat h1 span {
+                color: var(--am);
+            }
+
+        .hero-cat p {
+            color: rgba(255,255,255,.70);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+    .filtros {
+        background: #fff;
+        border-bottom: 2px solid #eee;
+        padding: 16px 0;
+    }
+
+        .filtros button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 6px 18px;
+            font-size: .82rem;
+            font-weight: 600;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 0;
+            transition: all .15s;
+            margin: 4px;
+        }
+
+            .filtros button:hover, .filtros button.activo {
+                background: var(--neg);
+                color: #fff;
+                border-color: var(--neg);
+            }
+
+    .seccion {
+        padding: 52px 32px;
+        background: var(--claro);
+    }
+
+    .sec-titulo {
+        font-family: 'Bebas Neue',sans-serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+        color: var(--neg);
+    }
+
+    .linea {
+        width: 40px;
+        height: 4px;
+        background: var(--am);
+        margin: 6px 0 32px;
+    }
+
+    .proyecto-card {
+        background: #fff;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .proyecto-card:hover .proy-img {
+            transform: scale(1.05);
+        }
+
+    .img-wrap {
+        overflow: hidden;
+        aspect-ratio: 4/3;
+    }
+
+    .proy-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .4s;
+    }
+
+    .proy-body {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .proy-tipo {
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--am);
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .proy-nombre {
+        font-family: 'Bebas Neue',sans-serif;
+        font-size: 1.3rem;
+        letter-spacing: .5px;
+        color: var(--neg);
+        margin-bottom: 8px;
+    }
+
+    .proy-desc {
+        font-size: .83rem;
+        color: #666;
+        line-height: 1.65;
+        flex: 1;
+    }
+
+    .proy-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .proy-meta {
+        font-size: .75rem;
+        color: #999;
+    }
+
+    .badge-est {
+        font-size: .70rem;
+        padding: 3px 9px;
+        border-radius: 0;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .cta-banda {
+        background: var(--neg);
+        padding: 52px 32px;
+    }
+
+        .cta-banda h2 {
+            font-family: 'Bebas Neue',sans-serif;
+            font-size: 2.4rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+    .btn-am {
+        background: var(--am);
+        color: var(--neg);
+        border: none;
+        font-weight: 700;
+        padding: 13px 36px;
+        border-radius: 0;
+        font-size: .95rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background .15s;
+    }
+
+        .btn-am:hover {
+            background: #d49200;
+            color: var(--neg);
+        }
+</style>
+
+<div class="hero-cat">
+    <div>
+        <p class="text-uppercase mb-2" style="font-size:.72rem;letter-spacing:3px;color:var(--am);">Portafolio de obras</p>
+        <h1>Nuestros <span>Proyectos</span></h1>
+        <p>Conoce las obras que hemos levantado a lo largo de los anos.</p>
+    </div>
+</div>
+
+<div class="filtros">
+    <div class="container text-center">
+        <button class="activo" onclick="filtrar(this,'todos')">Todos</button>
+        <button onclick="filtrar(this,'Comercial')">Comercial</button>
+        <button onclick="filtrar(this,'Residencial')">Residencial</button>
+        <button onclick="filtrar(this,'Industrial')">Industrial</button>
+        <button onclick="filtrar(this,'Remodelacion')">Remodelacion</button>
+    </div>
+</div>
+
+<div class="seccion">
+    <div class="container">
+        <h2 class="sec-titulo">Portafolio de proyectos</h2>
+        <div class="linea"></div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info" style="border-radius:0;">No hay proyectos publicados aun.</div>
+        }
+
+        <div class="row g-4" id="grid-proyectos">
+            @foreach (var p in Model)
+            {
+                <div class="col-sm-6 col-lg-4 proyecto-item" data-tipo="@p.Tipo">
+                    <div class="proyecto-card">
+                        @if (!string.IsNullOrEmpty(p.Imagen))
+                        {
+                            <div class="img-wrap">
+                                <img src="@p.Imagen" alt="@p.NombreProyecto" class="proy-img" loading="lazy">
+                            </div>
+                        }
+                        <div class="proy-body">
+                            <div class="proy-tipo">@p.Tipo</div>
+                            <div class="proy-nombre">@p.NombreProyecto</div>
+                            <p class="proy-desc">@p.Descripcion</p>
+                            <div class="proy-footer">
+                                <div class="proy-meta">
+                                    @if (!string.IsNullOrEmpty(p.Ciudad))
+                                    {<span><i class="bi bi-geo-alt me-1"></i>@p.Ciudad</span>}
+                                    @if (p.M2 > 0)
+                                    {<span class="ms-2"><i class="bi bi-rulers me-1"></i>@String.Format("{0:N0}", p.M2) m²</span>}
+                                    @if (p.Year > 0)
+                                    {<span class="ms-2"><i class="bi bi-calendar me-1"></i>@p.Year</span>}
+                                </div>
+                                <span class="badge-est badge @(p.Estado=="Entregado"?"bg-success":p.Estado=="En proceso"?"bg-warning text-dark":"bg-secondary")">
+                                    @p.Estado
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="contacto" class="cta-banda">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7 mb-4 mb-md-0">
+                <h2>&iquest;Tienes un proyecto en mente?</h2>
+                <p style="color:rgba(255,255,255,.65);font-size:.95rem;margin:0;">
+                    Contactanos y te damos una cotizacion sin compromiso en 48 horas.
+                </p>
+            </div>
+            <div class="col-md-5 text-md-end">
+                <a href="@Url.Action("Register","Account")" class="btn-am">Solicitar cotizacion</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>function filtrar(btn, tipo) {
+        document.querySelectorAll('.filtros button').forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+        document.querySelectorAll('.proyecto-item').forEach(function(el) {
+            el.style.display = (tipo === 'todos' || el.dataset.tipo === tipo) ? '' : 'none';
+        });
+    }</script>
+}

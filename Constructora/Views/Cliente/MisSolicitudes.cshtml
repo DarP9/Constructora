@@ -1,0 +1,62 @@
+@* ── MIS SOLICITUDES (Cliente) ───────────────────────────────────────── *@
+@model IEnumerable<Constructora.Models.Solicitud>
+@{
+    ViewBag.Title  = "Mis Solicitudes";
+    ViewBag.Pagina = "cli-solicitudes";
+}
+<style>
+    .panel{padding:32px;} .sec-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#111;}
+    .linea{width:40px;height:4px;background:#F5A800;margin:6px 0 24px;}
+    .tabla th{background:#111;color:#fff;font-size:.8rem;font-weight:500;}
+    .btn-am{background:#F5A800;color:#111;border:none;font-weight:600;padding:8px 20px;border-radius:0;cursor:pointer;text-decoration:none;display:inline-block;}
+    .btn-am:hover{background:#d49200;color:#111;}
+</style>
+<div class="panel">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="sec-titulo">Mis Solicitudes</h2>
+        <a href="@Url.Action("NuevaSolicitud","Cliente")" class="btn-am">
+            <i class="bi bi-plus-lg me-1"></i>Nueva solicitud
+        </a>
+    </div>
+    <div class="linea"></div>
+
+    @if (TempData["OkSolicitud"] != null)
+    {
+        <div class="alert alert-success" style="border-radius:0;">
+            <i class="bi bi-check-circle me-2"></i>@TempData["OkSolicitud"]
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead>
+                <tr><th>Proyecto</th><th>Tipo</th><th>Ciudad</th><th>Presupuesto est.</th><th>Fecha</th><th>Estado</th><th>Notas admin</th></tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="7" class="text-center text-muted py-4">
+                        No tienes solicitudes aun.
+                        <a href="@Url.Action("NuevaSolicitud","Cliente")" style="color:#F5A800;font-weight:600;">Crear una ahora</a>
+                    </td></tr>
+                }
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td><strong>@s.NombreProyecto</strong></td>
+                        <td>@s.Tipo</td>
+                        <td>@s.Ciudad</td>
+                        <td>@(s.PresupuestoEstimado > 0 ? "$" + String.Format("{0:N0}", s.PresupuestoEstimado) : "—")</td>
+                        <td>@s.FechaSolicitud.ToShortDateString()</td>
+                        <td>
+                            <span class="badge @(s.Estado=="Aprobada"?"bg-success":s.Estado=="Rechazada"?"bg-danger":"bg-warning text-dark")">
+                                @s.Estado
+                            </span>
+                        </td>
+                        <td style="font-size:.82rem;color:#666;">@(string.IsNullOrEmpty(s.NotasAdmin) ? "—" : s.NotasAdmin)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

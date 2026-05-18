@@ -1,0 +1,133 @@
+@model IEnumerable<Constructora.Models.Material>
+@using Constructora.Models
+@{
+    ViewBag.Title = "Materiales";
+    ViewBag.Pagina = "admin-mat";
+    var proveedores = Constructora.Models.DbHelper.ListarProveedores();
+}
+<style>
+    .panel {
+        padding: 32px;
+    }
+
+    .sec-titulo {
+        font-family: 'Bebas Neue',sans-serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+        color: #111;
+    }
+
+    .linea {
+        width: 40px;
+        height: 4px;
+        background: #F5A800;
+        margin: 6px 0 24px;
+    }
+
+    .tabla th {
+        background: #111;
+        color: #fff;
+        font-size: .8rem;
+        font-weight: 500;
+    }
+
+    .btn-am {
+        background: #F5A800;
+        color: #111;
+        border: none;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 0;
+        cursor: pointer;
+    }
+
+        .btn-am:hover {
+            background: #d49200;
+        }
+
+    .modal-header {
+        background: #111;
+        color: #fff;
+    }
+
+    .form-control, .form-select {
+        border-radius: 0;
+    }
+</style>
+<div class="panel">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h2 class="sec-titulo">Materiales</h2>
+        <button class="btn-am" data-bs-toggle="modal" data-bs-target="#modalMat">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo material
+        </button>
+    </div>
+    <div class="linea"></div>
+    <div class="table-responsive">
+        <table class="table table-sm bg-white mb-0 tabla">
+            <thead><tr><th>#</th><th>Nombre</th><th>Descripcion</th><th>Unidad</th><th>Precio unit.</th><th>Proveedor</th></tr></thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center text-muted py-3">Sin materiales</td></tr>
+}
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.IdMaterial</td>
+                        <td>@m.Nombre</td>
+                        <td>@m.Descripcion</td>
+                        <td>@m.UnidadMedida</td>
+                        <td>$@String.Format("{0:N2}", m.PrecioUnitario)</td>
+                        <td>@m.NombreProveedor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalMat" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo material</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            @using (Html.BeginForm("CrearMaterial", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="mb-3"><label class="form-label fw-semibold">Nombre *</label><input name="Nombre" class="form-control" required /></div>
+                    <div class="mb-3"><label class="form-label fw-semibold">Descripcion</label><input name="Descripcion" class="form-control" /></div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Unidad de medida</label>
+                        <select name="UnidadMedida" class="form-select">
+                            <option>Pieza</option>
+                            <option>Bulto</option>
+                            <option>M3</option>
+                            <option>Kg</option>
+                            <option>Litro</option>
+                            <option>Metro</option>
+                            <option>Cubeta</option>
+                        </select>
+                    </div>
+                    <div class="mb-3"><label class="form-label fw-semibold">Precio unitario</label><input name="PrecioUnitario" type="number" step="0.01" min="0" class="form-control" /></div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Proveedor</label>
+                        <select name="IdProveedor" class="form-select">
+                            <option value="0">— Sin proveedor —</option>
+                            @foreach (var p in proveedores)
+                            {
+                                <option value="@p.IdProveedor">@p.Nombre</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn-am">Guardar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

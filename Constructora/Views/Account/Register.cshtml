@@ -1,0 +1,160 @@
+@model Constructora.Models.RegisterViewModel
+@{
+    ViewBag.Title  = "Registro";
+    ViewBag.Pagina = "registro";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600&display=swap');
+    :root { --am:#F5A800; --neg:#111; }
+
+    .pag-reg {
+        min-height: calc(100vh - 56px);
+        background: #F4F2EF;
+        display: flex;
+        align-items: center;
+        padding: 48px 20px;
+    }
+    .reg-wrap {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #fff;
+        border-top: 4px solid var(--am);
+        box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    }
+    .reg-img {
+        background: linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.70)),
+                    url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80') center/cover no-repeat;
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: 480px;
+    }
+    .reg-img h2 { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; color:#fff; line-height:1; margin-bottom:10px; }
+    .reg-img h2 span { color: var(--am); }
+    .reg-img p  { color: rgba(255,255,255,.70); font-size:.9rem; line-height:1.65; margin:0; }
+
+    .reg-form { padding: 48px 40px; }
+    .reg-form h3 { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:var(--neg); margin-bottom:4px; }
+    .subtitulo   { font-size:.85rem; color:#777; margin-bottom:28px; }
+
+    .campo { margin-bottom: 18px; }
+    .campo label {
+        display: block;
+        font-size: .82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+        margin-bottom: 6px;
+        color: var(--neg);
+    }
+    .campo input {
+        width: 100%;
+        border: 1px solid #ddd;
+        background: #fafafa;
+        padding: 10px 14px;
+        font-family: 'Source Sans 3', sans-serif;
+        font-size: .92rem;
+        color: var(--neg);
+        border-radius: 0;
+        outline: none;
+        transition: border-color .15s;
+        box-sizing: border-box;
+    }
+    .campo input:focus { border-color: var(--am); background: #fff; }
+
+    .btn-registrar {
+        width: 100%;
+        background: var(--am);
+        color: var(--neg);
+        border: none;
+        font-family: 'Source Sans 3', sans-serif;
+        font-size: .95rem;
+        font-weight: 600;
+        padding: 12px;
+        cursor: pointer;
+        margin-top: 8px;
+        transition: background .15s;
+        border-radius: 0;
+    }
+    .btn-registrar:hover { background: #d49200; }
+
+    .ir-login { text-align:center; margin-top:18px; font-size:.85rem; color:#777; }
+    .ir-login a { color:var(--neg); font-weight:600; text-decoration:none; border-bottom:1px solid var(--am); padding-bottom:1px; }
+    .ir-login a:hover { color:var(--am); }
+
+    @@media (max-width:680px) {
+        .reg-wrap { grid-template-columns: 1fr; }
+        .reg-img  { min-height:200px; padding:28px 24px; }
+        .reg-form { padding:32px 24px; }
+    }
+</style>
+
+<div class="pag-reg">
+    <div class="reg-wrap">
+
+        <div class="reg-img">
+            <h2>Unete a<br><span>nuestra</span><br>plataforma</h2>
+            <p>Accede a cotizaciones, seguimiento de proyectos y mas desde tu cuenta personal.</p>
+        </div>
+
+        <div class="reg-form">
+            <h3>Crear cuenta</h3>
+            <p class="subtitulo">Completa los datos para registrarte</p>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" style="font-size:.83rem; border-radius:0; padding:10px 14px;">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="campo">
+                    <label>Nombre completo</label>
+                    @Html.TextBoxFor(m => m.Nombre,
+                        new { placeholder = "Juan Garcia" })
+                    @Html.ValidationMessageFor(m => m.Nombre, "",
+                        new { @class = "text-danger", style = "font-size:.78rem;" })
+                </div>
+
+                <div class="campo">
+                    <label>Correo electronico</label>
+                    @Html.TextBoxFor(m => m.Correo,
+                        new { placeholder = "correo@ejemplo.com", type = "email" })
+                    @Html.ValidationMessageFor(m => m.Correo, "",
+                        new { @class = "text-danger", style = "font-size:.78rem;" })
+                </div>
+
+                <div class="campo">
+                    <label>Telefono (opcional)</label>
+                    @Html.TextBoxFor(m => m.Telefono,
+                        new { placeholder = "961 123 4567", type = "tel" })
+                </div>
+
+                <div class="campo">
+                    <label>Contrasena</label>
+                    @Html.PasswordFor(m => m.Password,
+                        new { placeholder = "Minimo 6 caracteres" })
+                    @Html.ValidationMessageFor(m => m.Password, "",
+                        new { @class = "text-danger", style = "font-size:.78rem;" })
+                </div>
+
+                <button type="submit" class="btn-registrar">Crear cuenta</button>
+            }
+
+            <p class="ir-login">
+                &iquest;Ya tienes cuenta?
+                <a href="@Url.Action("Login", "Account")">Inicia sesion</a>
+            </p>
+        </div>
+
+    </div>
+</div>
